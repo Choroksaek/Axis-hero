@@ -10,6 +10,7 @@ export default function Home() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   
   // Refs for GSAP animations
+  const prismRef = useRef<HTMLDivElement>(null);
   const h1Ref = useRef<HTMLHeadingElement>(null);
   const h4Ref = useRef<HTMLHeadingElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
@@ -60,6 +61,13 @@ export default function Home() {
     // Create timeline
     const tl = gsap.timeline();
     
+    // Animate prism background fade-in first
+    tl.to(prismRef.current, {
+      opacity: 1,
+      duration: 1.2,
+      ease: 'power3.out'
+    }, 0);
+    
     // Animate h1 characters first
     if (h1Ref.current) {
       const chars = h1Ref.current.querySelectorAll('.gsap-char');
@@ -107,7 +115,7 @@ export default function Home() {
   }, [isVideoModalOpen]);
   return (
     <main className="min-h-screen relative overflow-hidden bg-gradient-to-b from-black to-gray-700 text-white">
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      <div ref={prismRef} className="absolute inset-0 z-0 pointer-events-none" style={{ opacity: 0 }}>
         <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
           <Prism
             animationType="rotate"
